@@ -4,14 +4,20 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
-URL = "https://www.livechennai.com/gold_silverrate.asp"
+URL = "https://economictimes.indiatimes.com/markets/gold-rate-in-india-today"
 r = requests.get(URL)
 
 soup = BeautifulSoup(r.content, 'html5lib')
 
-table = soup.select_one('table', attrs = {'class':'table-price'})
+table_list = soup.findAll('table', attrs={'class':'table lg_txt rf_rr'})
 
-for row in table.findAll('tr'):
-    for data in row.select('td:has(font)'):
-        print(data.text)
-    print("*******************************")
+# for row in table_list[1].find_all('tr'):
+#     print("************")
+#     data = row.find_all('td')
+#     if len(data) > 0:
+#         print(data[0].text, data[1].text, data[2].text)
+
+rows = table_list[1].find_all('tr')
+data = rows[1].find_all('td')
+if len(data) > 0:
+    print(data[0].text, data[1].text, data[2].text)
